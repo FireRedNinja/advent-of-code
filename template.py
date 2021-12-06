@@ -10,13 +10,13 @@ def parse(puzzle_input):
 def part1(data):
     """Solve part 1"""
 
-    return 'Not implemented'
+    return f'Not implemented'
 
 
 def part2(data):
     """Solve part 2"""
 
-    return 'Not implemented'
+    return f'Not implemented'
 
 
 def solve(puzzle_input):
