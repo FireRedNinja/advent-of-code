@@ -1,7 +1,6 @@
 from collections import defaultdict
 import pathlib
 import sys
-from pdb import set_trace
 
 
 def parse(puzzle_input):
@@ -13,57 +12,50 @@ def parse(puzzle_input):
 def part1(data):
     """Solve part 1"""
     counter = 0
-    for i in data:
-        for j in i[1]:
-            if len(j) in [2, 3, 4, 7]:
+    for _, output_values in data:
+        for output_value in output_values:
+            if len(output_value) in [2, 3, 4, 7]:
                 counter += 1
     return f'Counter: {counter}'
 
 
 def part2(data):
     """Solve part 2"""
-    output_values = []
-    for i in data:
+    output_int_values = []
+    for signal_patterns, output_values in data:
+        signal_patterns = [set(pattern) for pattern in signal_patterns]
+        output_values = [set(output_value) for output_value in output_values]
         len_to_val = {2: 1, 3: 7, 4: 4, 7: 8}
-        str_to_val = {}
-        val_lookup = defaultdict(lambda: '')
-        len_lookup = defaultdict(list)
-        for j in i[0]:
-            if len(j) in len_to_val:
-                val_lookup[len_to_val[len(j)]] = j
-                str_to_val[j] = len_to_val[len(j)]
-            len_lookup[len(j)].append(j)
+        val_lookup = defaultdict(lambda: set(''))
+        for pattern in signal_patterns:
+            if len(pattern) in len_to_val:
+                val_lookup[len_to_val[len(pattern)]] = pattern
 
-        for j in len_lookup[5]:
-            if len(set(j) - set(val_lookup[4])) == 3:
-                val_lookup[2] = j
-                str_to_val[j] = 2
-            elif len(set(j) - set(val_lookup[7])) == 2:
-                val_lookup[3] = j
-                str_to_val[j] = 3
-            elif len(set(j) - set(val_lookup[7])) == 3:
-                val_lookup[5] = j
-                str_to_val[j] = 5
+        for pattern in [pattern for pattern in signal_patterns if len(pattern) is 5]:
+            if len(pattern - val_lookup[4]) == 3:
+                val_lookup[2] = pattern
+            elif len(pattern - val_lookup[7]) == 2:
+                val_lookup[3] = pattern
+            elif len(pattern - val_lookup[7]) == 3:
+                val_lookup[5] = pattern
 
-        for j in len_lookup[6]:
-            if len(set(j) - set(val_lookup[4])) == 2:
-                val_lookup[9] = j
-                str_to_val[j] = 9
-            elif len(set(j) - set(val_lookup[7])) == 3:
-                val_lookup[0] = j
-                str_to_val[j] = 0
-            elif len(set(j) - set(val_lookup[7])) == 4:
-                val_lookup[6] = j
-                str_to_val[j] = 6
+        for pattern in [pattern for pattern in signal_patterns if len(pattern) is 6]:
+            if len(pattern - val_lookup[4]) == 2:
+                val_lookup[9] = pattern
+            elif len(pattern - val_lookup[7]) == 3:
+                val_lookup[0] = pattern
+            elif len(pattern - val_lookup[7]) == 4:
+                val_lookup[6] = pattern
 
-        output = ''
-        for j in i[1]:
-            for k in str_to_val:
-                if set(j) == set(k):
-                    output += f'{str_to_val[k]}'
+        output_string = ''
+        for output_value in output_values:
+            for val, string in val_lookup.items():
+                if output_value == string:
+                    output_string += f'{val}'
+                    break
 
-        output_values.append(int(output))
-    return f'Output Sum Values: {sum(output_values)}'
+        output_int_values.append(int(output_string))
+    return f'Output Sum Values: {sum(output_int_values)}'
 
 
 def solve(puzzle_input):
