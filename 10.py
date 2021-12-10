@@ -10,19 +10,31 @@ def parse(puzzle_input):
 
 def part1(data):
     """Solve part 1"""
+    syntax_structure = {
+        '(': {
+            'close': ')',
+            'score': 3
+        },
+        '[': {
+            'close': ']',
+            'score': 57
+        },
+        '{': {
+            'close': '}',
+            'score': 1197
+        },
+        '<': {
+            'close': '>',
+            'score': 25137
+        }
+    }
 
     illegal_chars = []
     for line in data:
         syntax = deque()
         for char in line:
             if char in ')]}>':
-                if syntax[-1] == '(' and char == ')':
-                    syntax.pop()
-                elif syntax[-1] == '[' and char == ']':
-                    syntax.pop()
-                elif syntax[-1] == '{' and char == '}':
-                    syntax.pop()
-                elif syntax[-1] == '<' and char == '>':
+                if char == syntax_structure[syntax[-1]]['close']:
                     syntax.pop()
                 else:
                     illegal_chars.append(char)
@@ -32,33 +44,38 @@ def part1(data):
 
     score = 0
     for key, val in Counter(illegal_chars).items():
-        if key == ')':
-            score += 3 * val
-        elif key == ']':
-            score += 57 * val
-        elif key == '}':
-            score += 1197 * val
-        elif key == '>':
-            score += 25137 * val
+        score += val * syntax_structure[key]['score']
 
     return f'Score: {score}'
 
 
 def part2(data):
     """Solve part 2"""
+    syntax_structure = {
+        '(': {
+            'close': ')',
+            'value': 1
+        },
+        '[': {
+            'close': ']',
+            'value': 2
+        },
+        '{': {
+            'close': '}',
+            'value': 3
+        },
+        '<': {
+            'close': '>',
+            'value': 4
+        }
+    }
 
     incomplete_chars = []
     for line in data:
         syntax = deque()
         for char in line:
             if char in ')]}>':
-                if syntax[-1] == '(' and char == ')':
-                    syntax.pop()
-                elif syntax[-1] == '[' and char == ']':
-                    syntax.pop()
-                elif syntax[-1] == '{' and char == '}':
-                    syntax.pop()
-                elif syntax[-1] == '<' and char == '>':
+                if char == syntax_structure[syntax[-1]]['close']:
                     syntax.pop()
                 else:
                     syntax.clear()
@@ -74,18 +91,7 @@ def part2(data):
     for line in incomplete_chars:
         score = 0
         for char in line:
-            if char == '(':
-                score *= 5
-                score += 1
-            elif char == '[':
-                score *= 5
-                score += 2
-            elif char == '{':
-                score *= 5
-                score += 3
-            elif char == '<':
-                score *= 5
-                score += 4
+            score = (score * 5) + syntax_structure[char]['value']
         scores.append(score)
 
     scores.sort()
