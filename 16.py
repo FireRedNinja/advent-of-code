@@ -30,7 +30,7 @@ def type_id(type_id, values):
             return 1 if values[0] < values[1] else 0
         case 7:
             return 1 if values[0] == values[1] else 0
-    
+
 
 def parse_packet(packet):
     """Parse a packet"""
@@ -40,7 +40,6 @@ def parse_packet(packet):
     values = []
 
 
-    # Literal
     if packet_type_id == 4:
         num = ''
         while True:
@@ -49,19 +48,17 @@ def parse_packet(packet):
             if last_group:
                 break
         literal_val = int(num, 2)
-        
-    # Operator
+
     else:
         length_type_id = int(pop_left(packet, 1))
         length = None
 
-        # st()
         if length_type_id == 0:
             length = 15
             total_length = int(pop_left(packet, length), 2)
 
             sub_packets = deque(pop_left(packet, total_length))
-            
+
             while len(sub_packets) > 0:
                 sub_packet_version, value, sub_packets = parse_packet(sub_packets)
                 packet_version += sub_packet_version
@@ -71,7 +68,7 @@ def parse_packet(packet):
             length = 11
             number_of_sub_packets = int(pop_left(packet, length), 2)
 
-            for i in range(number_of_sub_packets):
+            for _ in range(number_of_sub_packets):
                 sub_packet_version, value, packet = parse_packet(packet)
                 packet_version += sub_packet_version
                 values.append(value)
@@ -102,7 +99,6 @@ def solve(puzzle_input):
     data = parse(puzzle_input)
     solution1 = part1(data)
     solution2 = part2(data)
-    # solution2 = 'part2(data)'
 
     return solution1, solution2
 
