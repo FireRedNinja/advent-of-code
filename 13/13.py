@@ -120,8 +120,8 @@ def solve(dots, instructions):
 
 
 if __name__ == "__main__":
-    dot_path = 'data/13_dots.txt'
-    instructions_path = 'data/13_instructions.txt'
+    dot_path = '13_dots.txt'
+    instructions_path = '13_instructions.txt'
     print(f"Input Data: {dot_path}, {instructions_path}")
     dots = pathlib.Path(dot_path).read_text().strip()
     instructions = pathlib.Path(instructions_path).read_text().strip()
