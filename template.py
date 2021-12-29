@@ -30,9 +30,9 @@ def solve(puzzle_input):
 
 
 if __name__ == "__main__":
-    for path in sys.argv[1:]:
-        print(f"Input Data: {path}")
-        puzzle_input = pathlib.Path(path).read_text().strip()
-        solutions = solve(puzzle_input)
-        print('\nSolutions:')
-        print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+    path = "input.txt"
+    print(f"Input Data: {path}")
+    puzzle_input = pathlib.Path(path).read_text().strip()
+    solutions = solve(puzzle_input)
+    print('\nSolutions:')
+    print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
