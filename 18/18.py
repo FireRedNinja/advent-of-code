@@ -1,6 +1,7 @@
 import pathlib
 import math
 import json
+from copy import deepcopy
 
 
 def parse(puzzle_input):
@@ -70,10 +71,7 @@ def explode(depth: int, data: list):
                 else:
                     data.append(0)
             else:
-                exploded, new_data, (left_set,
-                                     left_val), (right_set,
-                                                 right_val) = explode(
-                                                     depth, data[i])
+                exploded, new_data, (left_set,left_val), (right_set,right_val) = explode(depth, data[i])
                 data[i] = new_data
 
                 if exploded:
@@ -91,8 +89,7 @@ def explode(depth: int, data: list):
                             data[i + 1:] = new_right
 
             if exploded:
-                return exploded, data, (left_set, left_val), (right_set,
-                                                              right_val)
+                return exploded, data, (left_set, left_val), (right_set,right_val)
     return exploded, data, (left_set, left_val), (right_set, right_val)
 
 
@@ -114,6 +111,31 @@ def split(data):
     return has_split, data
 
 
+def add(a, b):
+    snailfish = [a, b]
+
+    exploded = False
+    has_split = False
+
+    while True:
+        exploded, snailfish, *_ = explode(0, snailfish)
+
+        if exploded:
+            exploded = False
+            continue
+
+        has_split, snailfish = split(snailfish)
+
+        if has_split:
+            has_split = False
+            continue
+
+        if not exploded and not has_split:
+            break
+
+    return snailfish
+
+
 def magnitude(data):
     """Calculate the magnitude of the data"""
     if isinstance(data, int):
@@ -124,66 +146,29 @@ def magnitude(data):
 
 def part1(data):
     """Solve part 1"""
-    snailfish = json.loads(data[0])
+    data = list(map(json.loads, data))
+    snailfish = data[0]
 
     for line in data[1:]:
-        line = json.loads(line)
-        snailfish = [snailfish, line]
-
-        exploded = False
-        has_split = False
-
-        while True:
-            exploded, snailfish, *_ = explode(0, snailfish)
-
-            if exploded:
-                exploded = False
-                continue
-
-            has_split, snailfish = split(snailfish)
-
-            if has_split:
-                has_split = False
-                continue
-
-            if not exploded and not has_split:
-                break
+        snailfish = add(snailfish, line)
     return f'Magnitude: {magnitude(snailfish)}'
 
 
 def part2(data):
     """Solve part 2"""
+    data = list(map(json.loads, data))
     max_magnitude = 0
 
     for i, i_data in enumerate(data):
         other_data = data[:i] + data[i + 1:]
 
-        i_data = json.loads(i_data)
         for j in other_data:
-            j = json.loads(j)
-            snailfish = [i_data, j]
+            a = deepcopy(i_data)
+            b = deepcopy(j)
 
-            exploded = False
-            has_split = False
-
-            while True:
-                exploded, snailfish, *_ = explode(0, snailfish)
-
-                if exploded:
-                    exploded = False
-                    continue
-
-                has_split, snailfish = split(snailfish)
-
-                if has_split:
-                    has_split = False
-                    continue
-
-                if not exploded and not has_split:
-                    break
-
+            snailfish = add(a, b)
+            
             max_magnitude = max(magnitude(snailfish), max_magnitude)
-
     return f'Largest Magnitude: {max_magnitude}'
 
 
