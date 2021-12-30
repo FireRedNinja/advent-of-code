@@ -1,114 +1,190 @@
 import pathlib
-import sys
-from pdb import set_trace as st
-from collections import deque
 import math
 import json
+
 
 def parse(puzzle_input):
     """Parse input"""
     return [line for line in puzzle_input.split('\n')]
 
+
 def set_left(val, data):
-    for i in range(len(data)-1, -1, -1):
+    left_set = False
+    for i in range(len(data) - 1, -1, -1):
         if isinstance(data[i], int):
-            return True, val + data[i]
+            left_set = True
+            data[i] = val + data[i]
+            return left_set, data
         else:
-            return set_left(val, data[i])
+            left_set, data[i] = set_left(val, data[i])
+            return left_set, data
     return False, None
 
+
 def set_right(val, data):
-    for i in data:
-        if isinstance(i, int):
-            return True, val + i
+    right_set = False
+    for i in range(len(data)):
+        if isinstance(data[i], int):
+            right_set = True
+            data[i] = val + data[i]
+            return right_set, data
         else:
-            return set_right(val, i)
+            right_set, data[i] = set_right(val, data[i])
+            return right_set, data
     return False, None
+
 
 def explode(depth: int, data: list):
     """Explode the data"""
     depth += 1
-
-    if all(isinstance(item, int) for item in data) and depth > 4:
-        return True, data, (False, data[0]), (False, data[1]), False
 
     exploded = False
     left_set = False
     left_val = None
     right_set = False
     right_val = None
-    pair_set = False
 
     for i in range(len(data)):
         if isinstance(data[i], list):
-            exploded, pair, (left_set, left_val), (right_set, right_val), pair_set = explode(depth, data[i])
-            data[i] = pair
 
-            if exploded:
+            if all(isinstance(item, int) for item in data[i]) and depth >= 4:
+                exploded = True
+                left_val, right_val = data[i]
+
+                new_left = None
                 new_right = None
 
                 if not left_set:
-                    left_set, new_left = set_left(left_val, data[:i])   
+                    left_set, new_left = set_left(left_val, data[:i])
 
-                if not right_set and i+1 < len(data):
-                    right_set, new_right = set_right(right_val, data[i+1:])
+                if not right_set and i + 1 < len(data):
+                    right_set, new_right = set_right(right_val, data[i + 1:])
 
-                if not pair_set:
-                    if left_set:
-                        data = [new_left]
-                    else:
-                        data = [0]
-                    
-                    if right_set:
-                        data.append(new_right)
-                    else:
-                        data.append(0)
-                    
-                    pair_set = True
+                if left_set:
+                    data = new_left
+                else:
+                    data = [0]
 
-                return exploded, data, (left_set, left_val), (right_set, right_val), pair_set
-    
-    return exploded, data, (left_set, left_val), (right_set, right_val), pair_set
+                if right_set:
+                    data += new_right
+                else:
+                    data.append(0)
+            else:
+                exploded, new_data, (left_set,
+                                     left_val), (right_set,
+                                                 right_val) = explode(
+                                                     depth, data[i])
+                data[i] = new_data
 
-def split(left, right, digit):
-    digit = int(digit)
+                if exploded:
+                    if not left_set:
+                        left_set, new_left = set_left(left_val, data[:i])
 
-    replaced = f'[{math.floor(digit/2)},{math.ceil(digit/2)}]'
+                        if left_set:
+                            data[:i] = new_left
 
-    return left + replaced + right
-    
+                    if not right_set and i + 1 < len(data):
+                        right_set, new_right = set_right(
+                            right_val, data[i + 1:])
+
+                        if right_set:
+                            data[i + 1:] = new_right
+
+            if exploded:
+                return exploded, data, (left_set, left_val), (right_set,
+                                                              right_val)
+    return exploded, data, (left_set, left_val), (right_set, right_val)
+
+
+def split(data):
+    has_split = False
+
+    for i in range(len(data)):
+        if isinstance(data[i], list):
+            has_split, data[i] = split(data[i])
+
+            if has_split:
+                break
+        else:
+            if data[i] > 9:
+                data[i] = [math.floor(data[i] / 2), math.ceil(data[i] / 2)]
+                has_split = True
+                break
+
+    return has_split, data
+
+
+def magnitude(data):
+    """Calculate the magnitude of the data"""
+    if isinstance(data, int):
+        return data
+    else:
+        return (3 * magnitude(data[0])) + (2 * magnitude(data[1]))
+
 
 def part1(data):
     """Solve part 1"""
-    snailfish = None
+    snailfish = json.loads(data[0])
 
-    first = True
-    for line in data:
+    for line in data[1:]:
         line = json.loads(line)
-        snailfish = line if snailfish is None else [snailfish, line]
-
-        if first:
-            first = False
-            continue
+        snailfish = [snailfish, line]
 
         exploded = False
-        split = False
+        has_split = False
 
         while True:
-            exploded, snailfish, left, right, split = explode(0, snailfish)
+            exploded, snailfish, *_ = explode(0, snailfish)
 
-            if not exploded and not split:
+            if exploded:
+                exploded = False
+                continue
+
+            has_split, snailfish = split(snailfish)
+
+            if has_split:
+                has_split = False
+                continue
+
+            if not exploded and not has_split:
                 break
-        # while not exploded and not split:
-        
-
-    return f'Not implemented'
+    return f'Magnitude: {magnitude(snailfish)}'
 
 
 def part2(data):
     """Solve part 2"""
+    max_magnitude = 0
 
-    return f'Not implemented'
+    for i, i_data in enumerate(data):
+        other_data = data[:i] + data[i + 1:]
+
+        i_data = json.loads(i_data)
+        for j in other_data:
+            j = json.loads(j)
+            snailfish = [i_data, j]
+
+            exploded = False
+            has_split = False
+
+            while True:
+                exploded, snailfish, *_ = explode(0, snailfish)
+
+                if exploded:
+                    exploded = False
+                    continue
+
+                has_split, snailfish = split(snailfish)
+
+                if has_split:
+                    has_split = False
+                    continue
+
+                if not exploded and not has_split:
+                    break
+
+            max_magnitude = max(magnitude(snailfish), max_magnitude)
+
+    return f'Largest Magnitude: {max_magnitude}'
 
 
 def solve(puzzle_input):
