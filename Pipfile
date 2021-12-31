@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+pylint = {version="*", index="pypi"}
+autopep8 = {version="*", index="pypi"}
+yapf = {version="*", index="pypi"}
+
+[packages]
+numpy = {version="*", index="pypi"}
+pillow = {version="*", index="pypi"}
+pandas = {version="*", index="pypi"}
+
+[requires]
+python_version = "3.10"
