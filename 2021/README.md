@@ -1,0 +1,21 @@
+# Advent of Code 2021
+
+Solutions:
+- [Day 1](1/1.py)
+- [Day 2](2/2.py)
+- [Day 3](3/3.py)
+- [Day 4](4/4.py)
+- [Day 5](5/5.py)
+- [Day 6](6/6.py)
+- [Day 7](7/7.py)
+- [Day 8](8/8.py)
+- [Day 9](9/9.py)
+- [Day 10](10/10.py)
+- [Day 11](11/11.py)
+- [Day 12](12/12.py)
+- [Day 13](13/13.py)
+- [Day 14](14/14.py)
+- [Day 15](15/15.py)
+- [Day 16](16/16.py)
+- [Day 18](18/18.py)
+- [Day 20](20/20.py)
