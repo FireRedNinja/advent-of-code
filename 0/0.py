@@ -1,6 +1,5 @@
 import pathlib
 import sys
-from pdb import set_trace as st
 
 
 def parse(puzzle_input):
@@ -30,7 +29,7 @@ def solve(puzzle_input):
 
 
 if __name__ == "__main__":
-    path = "input.txt"
+    path = "./2022/0/input.txt"
     print(f"Input Data: {path}")
     puzzle_input = pathlib.Path(path).read_text().strip()
     solutions = solve(puzzle_input)
