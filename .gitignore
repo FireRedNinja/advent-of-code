@@ -1,2 +1,3 @@
 pip.conf
 .vscode/
+.venv/
