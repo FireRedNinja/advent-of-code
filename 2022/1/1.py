@@ -1,5 +1,32 @@
-import pathlib
+import requests
+from pathlib import Path
 import sys
+
+from dotenv import dotenv_values
+
+config = dotenv_values('.env')
+session_token = config["AOC_TOKEN"]
+
+def get_input(day, year):
+    puzzle_input = Path(f"./{year}/{day}/input.txt")
+    print(f"Input Data: {puzzle_input}")
+
+    if puzzle_input.is_file():
+        return Path(puzzle_input).read_text().strip()
+    
+    url = "https://adventofcode.com/2022/day/"+str(day)+"/input"
+    headers = {'Cookie': 'session='+session_token}
+    r = requests.get(url, headers=headers)
+    if r.status_code == 200:
+        puzzle_input.write_text(r.text)
+        return r.text
+    else:
+        sys.exit(f"/api/alerts response: {r.status_code}: {r.reason} \n{r.content}")
+
+
+def parse(puzzle_input):
+    """Parse input"""
+    return [line for line in puzzle_input.split('\n')]
 
 
 def parse(puzzle_input):
@@ -30,9 +57,11 @@ def solve(puzzle_input):
 
 
 if __name__ == "__main__":
-    path = "./2022/1/input.txt"
-    print(f"Input Data: {path}")
-    puzzle_input = pathlib.Path(path).read_text().strip()
+    day = '1'
+    year = "2022"
+
+    puzzle_input = get_input(day, year)
+
     solutions = solve(puzzle_input)
     print('\nSolutions:')
     print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
