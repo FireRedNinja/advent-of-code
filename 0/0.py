@@ -1,17 +1,13 @@
 from utils import get_input
 
-# TODO
-# - add testing
-
 DAY = "0"
 YEAR = "2022"
-P1_TEST_DATA = ""
-P2_TEST_DATA = ""
+TEST_DATA = ""
 
 
 def parse(puzzle_input: str):
     """Parse input"""
-    return [line for line in puzzle_input.splitlines()]
+    return [line for line in puzzle_input.strip().splitlines()]
 
 
 def part1(data):
@@ -38,6 +34,18 @@ def solve(puzzle_input):
 if __name__ == "__main__":
     puzzle_input = get_input(DAY, YEAR)
 
+    test_solutions = solve(TEST_DATA)
+    # assert test_solutions[0] ==
+    # assert test_solutions[1] ==
+
     solutions = solve(puzzle_input)
+    # assert solutions[0] ==
+    # assert solutions[1] ==
+
     print("\nSolutions:")
-    print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")
+    print(
+        f"""
+    Part 1: {solutions[0]}
+    Part 2: {solutions[1]}
+        """
+    )
