@@ -1,18 +1,18 @@
 import pathlib
 import sys
+from collections import Counter, defaultdict
 from pdb import set_trace as st
-from collections import defaultdict, Counter
 
 
 def parse(puzzle_input):
     """Parse input"""
-    lines = [line for line in puzzle_input.split('\n')]
+    lines = [line for line in puzzle_input.split("\n")]
     template = lines[0]
     rules = defaultdict(str)
     for line in lines[2:]:
-        rule, result = line.split(' -> ')
+        rule, result = line.split(" -> ")
         rules[rule] = result
-    
+
     return template, rules
 
 
@@ -24,17 +24,17 @@ def part1(data):
     for _ in range(steps):
         l = 0
         r = 2
-        while r < len(template)+1:
+        while r < len(template) + 1:
             if template[l:r] in rules:
-                template = template[:l+1] + rules[template[l:r]] + template[r-1:]
+                template = template[: l + 1] + rules[template[l:r]] + template[r - 1 :]
                 l = r
                 r += 2
             else:
                 l += 1
                 r += 1
-    
+
     counts = Counter(template).most_common()
-    return f'Most - Least common element: {counts[0][1] - counts[-1][1]}'
+    return f"Most - Least common element: {counts[0][1] - counts[-1][1]}"
 
 
 def part2(data):
@@ -44,8 +44,8 @@ def part2(data):
 
     template_dict = defaultdict(int)
 
-    for i in range(len(template)-1):
-        template_dict[template[i:i+2]] += 1
+    for i in range(len(template) - 1):
+        template_dict[template[i : i + 2]] += 1
 
     for _ in range(steps):
         new_template_dict = defaultdict(int)
@@ -55,9 +55,8 @@ def part2(data):
                 new_template_dict[rules[pair] + pair[1]] += template_dict[pair]
                 template_dict[pair] = 0
         template_dict = {**template_dict, **new_template_dict}
-    
 
-    unique_characters = set(list(''.join(template_dict.keys())))
+    unique_characters = set(list("".join(template_dict.keys())))
     counts = defaultdict(int)
     for char in unique_characters:
         start_chars = 0
@@ -67,11 +66,11 @@ def part2(data):
                 start_chars += template_dict[pair]
             if pair[1] == char:
                 end_chars += template_dict[pair]
-        
+
         counts[char] = max(end_chars, start_chars)
-    
+
     values = sorted(counts.values())
-    return f'Most - Least common element: {values[-1] - values[0]}'
+    return f"Most - Least common element: {values[-1] - values[0]}"
 
 
 def solve(puzzle_input):
@@ -88,5 +87,5 @@ if __name__ == "__main__":
         print(f"Input Data: {path}")
         puzzle_input = pathlib.Path(path).read_text().strip()
         solutions = solve(puzzle_input)
-        print('\nSolutions:')
-        print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+        print("\nSolutions:")
+        print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")

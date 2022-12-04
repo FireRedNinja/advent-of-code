@@ -1,18 +1,20 @@
 import pathlib
 import sys
-from pdb import set_trace as st
 from collections import deque
 from functools import reduce
+from pdb import set_trace as st
 
 
 def parse(puzzle_input):
     """Parse input"""
-    h = puzzle_input.split('\n')[0]
+    h = puzzle_input.split("\n")[0]
     return (bin(int(h, 16))[2:]).zfill(len(h) * 4)
+
 
 def pop_left(queue, n):
     """Pop the leftmost element"""
-    return ''.join(deque(queue.popleft() for _ in range(n)))
+    return "".join(deque(queue.popleft() for _ in range(n)))
+
 
 def type_id(type_id, values):
     match type_id:
@@ -39,9 +41,8 @@ def parse_packet(packet):
     literal_val = None
     values = []
 
-
     if packet_type_id == 4:
-        num = ''
+        num = ""
         while True:
             last_group = int(pop_left(packet, 1)) == 0
             num += pop_left(packet, 4)
@@ -84,14 +85,14 @@ def part1(data):
     """Solve part 1"""
     data = deque(data)
     packet_version, *_ = parse_packet(data)
-    return f'Version: {packet_version}'
+    return f"Version: {packet_version}"
 
 
 def part2(data):
     """Solve part 2"""
     data = deque(data)
     _, value, _ = parse_packet(data)
-    return f'Value: {value}'
+    return f"Value: {value}"
 
 
 def solve(puzzle_input):
@@ -108,5 +109,5 @@ if __name__ == "__main__":
         print(f"Input Data: {path}")
         puzzle_input = pathlib.Path(path).read_text().strip()
         solutions = solve(puzzle_input)
-        print('\nSolutions:')
-        print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+        print("\nSolutions:")
+        print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")

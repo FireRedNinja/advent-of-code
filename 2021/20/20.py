@@ -1,14 +1,18 @@
 import pathlib
+
 import numpy as np
+
 
 def parse(puzzle_input):
     """Parse input"""
-    return [line for line in puzzle_input.split('\n')]
+    return [line for line in puzzle_input.split("\n")]
+
 
 def enhance_image(input_image, image_enhancement_algorithm):
     """Enhance the image"""
     output_image = np.zeros(input_image.shape)
     return output_image
+
 
 def part1(data):
     """Solve part 1"""
@@ -20,14 +24,13 @@ def part1(data):
     for _ in range(steps):
         input_image = enhance_image(input_image, image_enhancement_algorithm)
 
-
-    return f'Not implemented'
+    return f"Not implemented"
 
 
 def part2(data):
     """Solve part 2"""
 
-    return f'Not implemented'
+    return f"Not implemented"
 
 
 def solve(puzzle_input):
@@ -44,5 +47,5 @@ if __name__ == "__main__":
     print(f"Input Data: {path}")
     puzzle_input = pathlib.Path(path).read_text().strip()
     solutions = solve(puzzle_input)
-    print('\nSolutions:')
-    print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+    print("\nSolutions:")
+    print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")

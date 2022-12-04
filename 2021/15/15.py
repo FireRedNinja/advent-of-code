@@ -1,7 +1,8 @@
-from typing import Tuple
 import pathlib
 import sys
 from pdb import set_trace as st
+from typing import Tuple
+
 import numpy as np
 
 DIRECTIONS = [
@@ -14,7 +15,7 @@ DIRECTIONS = [
 
 def parse(puzzle_input):
     """Parse input"""
-    return [[int(i) for i in list(line)] for line in puzzle_input.split('\n')]
+    return [[int(i) for i in list(line)] for line in puzzle_input.split("\n")]
 
 
 def search(grid, start: Tuple[int, int], goal: Tuple[int, int]):
@@ -35,11 +36,15 @@ def search(grid, start: Tuple[int, int], goal: Tuple[int, int]):
             neighbor_y = current_cell[1] + DIRECTIONS[i][1]
             neighbor = (neighbor_x, neighbor_y)
 
-            if neighbor_x >= 0 and neighbor_x < len(grid[0]) and neighbor_y >= 0 and neighbor_y < len(grid):
+            if (
+                neighbor_x >= 0
+                and neighbor_x < len(grid[0])
+                and neighbor_y >= 0
+                and neighbor_y < len(grid)
+            ):
                 new_cost = cost + grid[neighbor_y][neighbor_x]
 
-                if neighbor in shortest_path and new_cost >= shortest_path[
-                        neighbor]:
+                if neighbor in shortest_path and new_cost >= shortest_path[neighbor]:
                     continue
 
                 shortest_path[neighbor] = new_cost
@@ -56,7 +61,7 @@ def part1(data):
 
     cost = search(data, start, goal)
 
-    return f'Cost: {cost}'
+    return f"Cost: {cost}"
 
 
 def part2(data):
@@ -80,7 +85,7 @@ def part2(data):
     goal = tuple([len(data) - 1, len(data[0]) - 1])
     cost = search(data, start, goal)
 
-    return f'Cost: {cost}'
+    return f"Cost: {cost}"
 
 
 def solve(puzzle_input):
@@ -97,5 +102,5 @@ if __name__ == "__main__":
         print(f"Input Data: {path}")
         puzzle_input = pathlib.Path(path).read_text().strip()
         solutions = solve(puzzle_input)
-        print('\nSolutions:')
-        print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+        print("\nSolutions:")
+        print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")

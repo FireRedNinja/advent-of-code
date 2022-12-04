@@ -1,35 +1,22 @@
-import requests
-from pathlib import Path
-import sys
-
 from dotenv import dotenv_values
+
+from utils import get_input
 
 config = dotenv_values(".env")
 session_token = config["AOC_TOKEN"]
-
-
-def get_input(day, year):
-    puzzle_input = Path(f"./{year}/{day}/{day}.txt")
-    print(f"Input Data: {puzzle_input}")
-
-    if puzzle_input.is_file():
-        return Path(puzzle_input).read_text(encoding="utf-8").strip()
-
-    url = "https://adventofcode.com/2022/day/" + str(day) + "/input"
-    headers = {"Cookie": "session=" + session_token}
-    req = requests.get(url, headers=headers, timeout=5)
-    if req.status_code == 200:
-        puzzle_input.write_text(req.text, encoding="utf-8")
-        return req.text
-    else:
-        sys.exit(
-            f"/api/alerts response: {req.status_code}: {req.reason} \n{req.content}"
-        )
+DAY = "4"
+YEAR = "2022"
 
 
 def parse(puzzle_input):
     """Parse input"""
-    return [[[int(section) for section in sections.split('-')] for sections in line.split(',')] for line in puzzle_input.split("\n")]
+    return [
+        [
+            [int(section) for section in sections.split("-")]
+            for sections in line.split(",")
+        ]
+        for line in puzzle_input.split("\n")
+    ]
 
 
 def part1(data):
@@ -63,9 +50,6 @@ def solve(puzzle_input):
 
 
 if __name__ == "__main__":
-    DAY = "4"
-    YEAR = "2022"
-
     puzzle_input = get_input(DAY, YEAR)
 
     solutions = solve(puzzle_input)

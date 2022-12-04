@@ -1,12 +1,13 @@
 import pathlib
-from pdb import set_trace
 import sys
+from pdb import set_trace
+
 import numpy as np
 
 
 def parse(puzzle_input):
     """Parse input"""
-    return [int(age) for age in puzzle_input.split(',')]
+    return [int(age) for age in puzzle_input.split(",")]
 
 
 def part1(data):
@@ -18,7 +19,7 @@ def part1(data):
         zeros = np.where(data == -1)
         data[zeros] = 6
         data = np.append(data, np.full(len(zeros[0]), 8))
-    return f'Fishes: {len(data)}'
+    return f"Fishes: {len(data)}"
 
 
 def part2(data: list):
@@ -51,7 +52,7 @@ def part2(data: list):
         }
         data = newData
 
-    return f'Fishes: {sum(data.values())}'
+    return f"Fishes: {sum(data.values())}"
 
 
 def solve(puzzle_input):
@@ -68,5 +69,5 @@ if __name__ == "__main__":
         print(f"Input Data: {path}")
         puzzle_input = pathlib.Path(path).read_text().strip()
         solutions = solve(puzzle_input)
-        print('\nSolutions:')
-        print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+        print("\nSolutions:")
+        print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")

@@ -5,18 +5,23 @@ from collections import Counter
 
 def parse(puzzle_input):
     """Parse input"""
-    data = [line for line in puzzle_input.split('\n')]
-    data = [line.split(' -> ') for line in data]
+    data = [line for line in puzzle_input.split("\n")]
+    data = [line.split(" -> ") for line in data]
     for i, line in enumerate(data):
         for j, coords in enumerate(line):
-            x, y = coords.split(',')
+            x, y = coords.split(",")
             data[i][j] = (int(x), int(y))
     return data
 
 
 def part1(data):
     """Solve part 1"""
-    data = list(filter(lambda coords: coords[0][0] == coords[1][0] or coords[0][1] == coords[1][1], data))
+    data = list(
+        filter(
+            lambda coords: coords[0][0] == coords[1][0] or coords[0][1] == coords[1][1],
+            data,
+        )
+    )
 
     intersects = []
     for start, end in data:
@@ -26,8 +31,10 @@ def part1(data):
             for y in y_values:
                 intersects.append((x, y))
 
-    counter = len([count for (coords, count) in Counter(intersects).items() if count >= 2])
-    return f'No. of Overlaps: {counter}'
+    counter = len(
+        [count for (coords, count) in Counter(intersects).items() if count >= 2]
+    )
+    return f"No. of Overlaps: {counter}"
 
 
 def part2(data):
@@ -53,7 +60,6 @@ def part2(data):
             elif y is min_y and y is not max_y:
                 increasing = True
 
-
         y_values = list(range(min(start[1], end[1]), max(start[1], end[1]) + 1))
         x_values = list(range(min(start[0], end[0]), max(start[0], end[0]) + 1))
         for x in x_values:
@@ -67,9 +73,10 @@ def part2(data):
                 for y in y_values:
                     intersects.append((x, y))
 
-
-    counter = len([count for (coords, count) in Counter(intersects).items() if count >= 2])
-    return f'No. of Overlaps: {counter}'
+    counter = len(
+        [count for (coords, count) in Counter(intersects).items() if count >= 2]
+    )
+    return f"No. of Overlaps: {counter}"
 
 
 def solve(puzzle_input):
@@ -86,5 +93,5 @@ if __name__ == "__main__":
         print(f"Input Data: {path}")
         puzzle_input = pathlib.Path(path).read_text().strip()
         solutions = solve(puzzle_input)
-        print('\nSolutions:')
-        print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+        print("\nSolutions:")
+        print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")

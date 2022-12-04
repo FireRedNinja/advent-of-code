@@ -1,16 +1,15 @@
 import pathlib
-from pdb import set_trace
 import sys
+from pdb import set_trace
+
 import numpy as np
 
 
 def parse(puzzle_input):
     """Parse input"""
-    draws, *boards = [
-        section.split('\n') for section in puzzle_input.split('\n\n')
-    ]
+    draws, *boards = [section.split("\n") for section in puzzle_input.split("\n\n")]
 
-    draws = [int(i) for i in draws[0].split(',')]
+    draws = [int(i) for i in draws[0].split(",")]
     for i, board in enumerate(boards):
         for j, row in enumerate(board):
             boards[i][j] = [int(k) for k in row.split()]
@@ -57,7 +56,7 @@ def part1(data):
     unmarked_numbers = np.where(markers[winning_board_index] == 0)
     unmarked_sum = sum(boards[winning_board_index][unmarked_numbers])
 
-    return f'{unmarked_sum} * {winning_draw} = {unmarked_sum * winning_draw}'
+    return f"{unmarked_sum} * {winning_draw} = {unmarked_sum * winning_draw}"
 
 
 def part2(data):
@@ -107,7 +106,7 @@ def part2(data):
     unmarked_numbers = np.where(winning_markers == 0)
     unmarked_sum = sum(winning_board[unmarked_numbers])
 
-    return f'{unmarked_sum} * {winning_draw} = {unmarked_sum * winning_draw}'
+    return f"{unmarked_sum} * {winning_draw} = {unmarked_sum * winning_draw}"
 
 
 def solve(puzzle_input):
@@ -125,5 +124,5 @@ if __name__ == "__main__":
         print(f"Input Data: {path}")
         puzzle_input = pathlib.Path(path).read_text().strip()
         solutions = solve(puzzle_input)
-        print('\nSolutions:')
-        print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+        print("\nSolutions:")
+        print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")

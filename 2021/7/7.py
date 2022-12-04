@@ -4,7 +4,7 @@ import sys
 
 def parse(puzzle_input):
     """Parse input"""
-    return [int(line) for line in puzzle_input.split(',')]
+    return [int(line) for line in puzzle_input.split(",")]
 
 
 def part1(data):
@@ -18,8 +18,8 @@ def part1(data):
                 break
         if least_fuel is None or fuel < least_fuel:
             least_fuel = fuel
-            
-    return f'Least fuel: {least_fuel}'
+
+    return f"Least fuel: {least_fuel}"
 
 
 def part2(data):
@@ -28,13 +28,13 @@ def part2(data):
     for i in range(0, max(data)):
         fuel = 0
         for j in data:
-            fuel += sum(range(abs(j - i)+1))
+            fuel += sum(range(abs(j - i) + 1))
             if least_fuel is not None and fuel > least_fuel:
                 break
         if least_fuel is None or fuel < least_fuel:
             least_fuel = fuel
-            
-    return f'Least fuel: {least_fuel}'
+
+    return f"Least fuel: {least_fuel}"
 
 
 def solve(puzzle_input):
@@ -51,5 +51,5 @@ if __name__ == "__main__":
         print(f"Input Data: {path}")
         puzzle_input = pathlib.Path(path).read_text().strip()
         solutions = solve(puzzle_input)
-        print('\nSolutions:')
-        print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+        print("\nSolutions:")
+        print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")

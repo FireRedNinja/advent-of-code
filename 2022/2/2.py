@@ -1,7 +1,7 @@
-import requests
-from pathlib import Path
 import sys
+from pathlib import Path
 
+import requests
 from dotenv import dotenv_values
 
 config = dotenv_values(".env")

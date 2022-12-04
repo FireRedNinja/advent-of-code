@@ -1,12 +1,12 @@
 import pathlib
 import sys
+
 import numpy as np
 
 
 def parse(puzzle_input):
     """Parse input"""
-    return [[int(char) for char in list(line)]
-            for line in puzzle_input.split('\n')]
+    return [[int(char) for char in list(line)] for line in puzzle_input.split("\n")]
 
 
 def adjacent_points(start_point, grid):
@@ -24,8 +24,13 @@ def adjacent_points(start_point, grid):
 
     points = list(
         filter(
-            lambda point: point[0] >= 0 and point[0] <= len(grid[0]) - 1 and
-            point[1] >= 0 and point[1] <= len(grid) - 1, points))
+            lambda point: point[0] >= 0
+            and point[0] <= len(grid[0]) - 1
+            and point[1] >= 0
+            and point[1] <= len(grid) - 1,
+            points,
+        )
+    )
     return points
 
 
@@ -59,7 +64,7 @@ def part1(data):
         flashes += len(ready[0])
         data[ready] = 0
 
-    return f'Flashes: {flashes}'
+    return f"Flashes: {flashes}"
 
 
 def part2(data):
@@ -82,7 +87,7 @@ def part2(data):
         data[ready] = 0
         i += 1
 
-    return f'Sync Flash Step: {i}'
+    return f"Sync Flash Step: {i}"
 
 
 def solve(puzzle_input):
@@ -99,5 +104,5 @@ if __name__ == "__main__":
         print(f"Input Data: {path}")
         puzzle_input = pathlib.Path(path).read_text().strip()
         solutions = solve(puzzle_input)
-        print('\nSolutions:')
-        print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+        print("\nSolutions:")
+        print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")

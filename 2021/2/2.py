@@ -4,7 +4,7 @@ import sys
 
 def parse(puzzle_input):
     """Parse input"""
-    return [line for line in puzzle_input.split('\n')]
+    return [line for line in puzzle_input.split("\n")]
 
 
 def part1(data):
@@ -14,14 +14,14 @@ def part1(data):
     for line in data:
         [direction, distance] = line.split()
         distance = int(distance)
-        if direction == 'forward':
+        if direction == "forward":
             horizontal += distance
-        elif direction == 'down':
+        elif direction == "down":
             depth += distance
-        elif direction == 'up':
+        elif direction == "up":
             depth -= distance
 
-    return f'horizontal * depth = {horizontal} * {depth} : {horizontal * depth}'
+    return f"horizontal * depth = {horizontal} * {depth} : {horizontal * depth}"
 
 
 def part2(data):
@@ -32,16 +32,16 @@ def part2(data):
     for line in data:
         [direction, distance] = line.split()
         distance = int(distance)
-        if direction == 'forward':
+        if direction == "forward":
             horizontal += distance
             depth += aim * distance
-        elif direction == 'down':
+        elif direction == "down":
             aim += distance
             # depth += distance
-        elif direction == 'up':
+        elif direction == "up":
             aim -= distance
 
-    return f'horizontal * depth = {horizontal} * {depth} : {horizontal * depth}'
+    return f"horizontal * depth = {horizontal} * {depth} : {horizontal * depth}"
 
 
 def solve(puzzle_input):
@@ -58,5 +58,5 @@ if __name__ == "__main__":
         print(f"Input Data: {path}")
         puzzle_input = pathlib.Path(path).read_text().strip()
         solutions = solve(puzzle_input)
-        print('\nSolutions:')
-        print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+        print("\nSolutions:")
+        print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")

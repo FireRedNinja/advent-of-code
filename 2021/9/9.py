@@ -5,8 +5,7 @@ from functools import reduce
 
 def parse(puzzle_input):
     """Parse input"""
-    return [[int(char) for char in list(line)]
-            for line in puzzle_input.split('\n')]
+    return [[int(char) for char in list(line)] for line in puzzle_input.split("\n")]
 
 
 def part1(data):
@@ -33,7 +32,7 @@ def part1(data):
 
             if all(k > col for k in adjacent):
                 risk_levels.append(col + 1)
-    return f'Risk Levels: {sum(risk_levels)}'
+    return f"Risk Levels: {sum(risk_levels)}"
 
 
 def connect_basins(basins, point):
@@ -94,7 +93,7 @@ def part2(data):
     basin_sizes = [len(sizes) for sizes in basin_sizes]
     basin_sizes.sort(reverse=True)
 
-    return f'Largest Basin Sizes: {reduce((lambda x, y: x*y), basin_sizes[:3])}'
+    return f"Largest Basin Sizes: {reduce((lambda x, y: x*y), basin_sizes[:3])}"
 
 
 def solve(puzzle_input):
@@ -111,5 +110,5 @@ if __name__ == "__main__":
         print(f"Input Data: {path}")
         puzzle_input = pathlib.Path(path).read_text().strip()
         solutions = solve(puzzle_input)
-        print('\nSolutions:')
-        print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+        print("\nSolutions:")
+        print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")

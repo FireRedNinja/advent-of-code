@@ -1,12 +1,12 @@
-import pathlib
-import math
 import json
+import math
+import pathlib
 from copy import deepcopy
 
 
 def parse(puzzle_input):
     """Parse input"""
-    return [line for line in puzzle_input.split('\n')]
+    return [line for line in puzzle_input.split("\n")]
 
 
 def set_left(val, data):
@@ -59,7 +59,7 @@ def explode(depth: int, data: list):
                     left_set, new_left = set_left(left_val, data[:i])
 
                 if not right_set and i + 1 < len(data):
-                    right_set, new_right = set_right(right_val, data[i + 1:])
+                    right_set, new_right = set_right(right_val, data[i + 1 :])
 
                 if left_set:
                     data = new_left
@@ -71,7 +71,12 @@ def explode(depth: int, data: list):
                 else:
                     data.append(0)
             else:
-                exploded, new_data, (left_set,left_val), (right_set,right_val) = explode(depth, data[i])
+                (
+                    exploded,
+                    new_data,
+                    (left_set, left_val),
+                    (right_set, right_val),
+                ) = explode(depth, data[i])
                 data[i] = new_data
 
                 if exploded:
@@ -82,14 +87,13 @@ def explode(depth: int, data: list):
                             data[:i] = new_left
 
                     if not right_set and i + 1 < len(data):
-                        right_set, new_right = set_right(
-                            right_val, data[i + 1:])
+                        right_set, new_right = set_right(right_val, data[i + 1 :])
 
                         if right_set:
-                            data[i + 1:] = new_right
+                            data[i + 1 :] = new_right
 
             if exploded:
-                return exploded, data, (left_set, left_val), (right_set,right_val)
+                return exploded, data, (left_set, left_val), (right_set, right_val)
     return exploded, data, (left_set, left_val), (right_set, right_val)
 
 
@@ -151,7 +155,7 @@ def part1(data):
 
     for line in data[1:]:
         snailfish = add(snailfish, line)
-    return f'Magnitude: {magnitude(snailfish)}'
+    return f"Magnitude: {magnitude(snailfish)}"
 
 
 def part2(data):
@@ -160,16 +164,16 @@ def part2(data):
     max_magnitude = 0
 
     for i, i_data in enumerate(data):
-        other_data = data[:i] + data[i + 1:]
+        other_data = data[:i] + data[i + 1 :]
 
         for j in other_data:
             a = deepcopy(i_data)
             b = deepcopy(j)
 
             snailfish = add(a, b)
-            
+
             max_magnitude = max(magnitude(snailfish), max_magnitude)
-    return f'Largest Magnitude: {max_magnitude}'
+    return f"Largest Magnitude: {max_magnitude}"
 
 
 def solve(puzzle_input):
@@ -186,5 +190,5 @@ if __name__ == "__main__":
     print(f"Input Data: {path}")
     puzzle_input = pathlib.Path(path).read_text().strip()
     solutions = solve(puzzle_input)
-    print('\nSolutions:')
-    print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+    print("\nSolutions:")
+    print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")

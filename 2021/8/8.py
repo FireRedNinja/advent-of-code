@@ -1,12 +1,14 @@
-from collections import defaultdict
 import pathlib
 import sys
+from collections import defaultdict
 
 
 def parse(puzzle_input):
     """Parse input"""
-    return [[segment.split(' ') for segment in line.split(' | ')]
-            for line in puzzle_input.split('\n')]
+    return [
+        [segment.split(" ") for segment in line.split(" | ")]
+        for line in puzzle_input.split("\n")
+    ]
 
 
 def part1(data):
@@ -16,7 +18,7 @@ def part1(data):
         for output_value in output_values:
             if len(output_value) in [2, 3, 4, 7]:
                 counter += 1
-    return f'Counter: {counter}'
+    return f"Counter: {counter}"
 
 
 def part2(data):
@@ -26,7 +28,7 @@ def part2(data):
         signal_patterns = [set(pattern) for pattern in signal_patterns]
         output_values = [set(output_value) for output_value in output_values]
         len_to_val = {2: 1, 3: 7, 4: 4, 7: 8}
-        val_lookup = defaultdict(lambda: set(''))
+        val_lookup = defaultdict(lambda: set(""))
         for pattern in signal_patterns:
             if len(pattern) in len_to_val:
                 val_lookup[len_to_val[len(pattern)]] = pattern
@@ -47,15 +49,15 @@ def part2(data):
             elif len(pattern - val_lookup[7]) == 4:
                 val_lookup[6] = pattern
 
-        output_string = ''
+        output_string = ""
         for output_value in output_values:
             for val, string in val_lookup.items():
                 if output_value == string:
-                    output_string += f'{val}'
+                    output_string += f"{val}"
                     break
 
         output_int_values.append(int(output_string))
-    return f'Output Sum Values: {sum(output_int_values)}'
+    return f"Output Sum Values: {sum(output_int_values)}"
 
 
 def solve(puzzle_input):
@@ -72,5 +74,5 @@ if __name__ == "__main__":
         print(f"Input Data: {path}")
         puzzle_input = pathlib.Path(path).read_text().strip()
         solutions = solve(puzzle_input)
-        print('\nSolutions:')
-        print(f'\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}')
+        print("\nSolutions:")
+        print(f"\tPart 1: {solutions[0]}\n\tPart 2: {solutions[1]}")

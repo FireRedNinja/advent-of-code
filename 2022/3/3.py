@@ -1,10 +1,9 @@
-import requests
-from pathlib import Path
-import sys
 import string
+import sys
+from pathlib import Path
 
+import requests
 from dotenv import dotenv_values
-
 
 config = dotenv_values(".env")
 session_token = config["AOC_TOKEN"]
@@ -33,6 +32,7 @@ def parse(puzzle_input):
     """Parse input"""
     return [line for line in puzzle_input.split("\n")]
 
+
 alphabet = string.ascii_letters
 
 
@@ -40,8 +40,8 @@ def part1(data):
     """Solve part 1"""
     prio = 0
     for i in data:
-        errors = set(i[:len(i)//2]).intersection(set(i[len(i)//2:]))
-        prio += sum([alphabet.index(e)+1 for e in errors])
+        errors = set(i[: len(i) // 2]).intersection(set(i[len(i) // 2 :]))
+        prio += sum([alphabet.index(e) + 1 for e in errors])
     return f"Total Priorities: {prio}"
 
 
@@ -50,9 +50,9 @@ def part2(data):
     prio = 0
     for i in range(0, len(data), 3):
         items = set()
-        for elf in data[i:i+3]:
+        for elf in data[i : i + 3]:
             items = set(elf) if len(items) == 0 else set(items).intersection(set(elf))
-        prio += alphabet.index(list(items)[0])+1
+        prio += alphabet.index(list(items)[0]) + 1
     return f"Total Priorities: {prio}"
 
 
