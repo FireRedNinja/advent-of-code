@@ -13,9 +13,9 @@ def get_input(day, year):
     print(f"Input Data: {puzzle_input}")
 
     if puzzle_input.is_file():
-        return Path(puzzle_input).read_text(encoding="utf-8").strip()
+        return Path(puzzle_input).read_text(encoding="utf-8")
 
-    url = f"https://adventofcode.com/{year}/{day}/{day}/input"
+    url = f"https://adventofcode.com/{year}/day/{day}/input"
     headers = {"Cookie": "session=" + session_token}
     req = requests.get(url, headers=headers, timeout=5)
     if req.status_code == 200:
