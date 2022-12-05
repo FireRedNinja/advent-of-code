@@ -17,6 +17,6 @@ path = Path(f"./{YEAR}/{DAY}")
 print(f"Creating files in {path}")
 if not path.exists():
     path.mkdir(parents=True)
-    shutil.copy("./0/0.py", path.joinpath("1.py"))
+    shutil.copy("./0/0.py", path.joinpath(f"{DAY}.py"))
 
 print("Done!")
