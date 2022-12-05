@@ -2,7 +2,6 @@ from utils import get_input
 
 DAY = "0"
 YEAR = "2022"
-TEST_DATA = ""
 
 
 def parse(puzzle_input: str):
@@ -32,9 +31,9 @@ def solve(puzzle_input):
 
 
 if __name__ == "__main__":
-    puzzle_input = get_input(DAY, YEAR)
+    puzzle_input, test_input = get_input(DAY, YEAR)
 
-    test_solutions = solve(TEST_DATA)
+    test_solutions = solve(test_input)
     # assert test_solutions[0] ==
     # assert test_solutions[1] ==
 
