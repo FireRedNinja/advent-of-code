@@ -21,9 +21,9 @@ else:
 me = data["members"]["710489"]
 
 print("My's Stats:")
-for key in me["completion_day_level"]:
+for key in sorted(me["completion_day_level"]):
     print(f"\tDay {key}:")
-    for star in me["completion_day_level"][key]:
+    for star in sorted(me["completion_day_level"][key]):
         star_time = datetime.fromtimestamp(
             me["completion_day_level"][key][star]["get_star_ts"]
         )
