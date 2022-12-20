@@ -1,6 +1,6 @@
 from utils import get_input
 
-DAY = "0"
+DAY = "PLACEHOLDER"
 YEAR = "2022"
 
 
