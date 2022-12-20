@@ -1,5 +1,4 @@
 from utils import get_input
-from pprint import pprint
 
 DAY = "10"
 YEAR = "2022"

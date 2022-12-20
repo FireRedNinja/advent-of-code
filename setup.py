@@ -1,6 +1,7 @@
 import shutil
 from datetime import datetime
 from pathlib import Path
+from utils import get_input
 
 YEAR = datetime.today().year
 DAY = datetime.today().day
@@ -18,5 +19,6 @@ print(f"Creating files in {path}")
 if not path.exists():
     path.mkdir(parents=True)
     shutil.copy("./0/0.py", path.joinpath(f"{DAY}.py"))
+    get_input(DAY, YEAR)
 
 print("Done!")
