@@ -1,4 +1,4 @@
 format:
 	black .
-	isort .
-	flake8 --format=pylint
+	isort . --skip-gitignore
+	flake8 . --exclude .venv --format=pylint
