@@ -1,7 +1,7 @@
 from utils import get_input
 
 DAY = "PLACEHOLDER"
-YEAR = "2022"
+YEAR = "2023"
 
 
 def parse(puzzle_input: str):
